@@ -1,75 +1,79 @@
 import List from "@mui/material/List";
-import type { MemoItem } from "../types/MemoItem.ts";
+
 import MemoListItem from "./MemoListItem.tsx";
 
+import { Link } from "@tanstack/react-router";
+import { useMemoList } from "../hooks/useMemoList.ts";
+
 export default function MemoList() {
-  const mockMemoList: MemoItem[] = [
-    {
-      id: 1,
-      title: "Brunch this weekend?",
-      content:
-        "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
-    },
-    {
-      id: 2,
-      title: "Brunch this weekend?",
-      content:
-        "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
-    },
-    {
-      id: 3,
-      title: "Brunch this weekend?",
-      content:
-        "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
-    },
-    {
-      id: 4,
-      title: "Brunch this weekend?",
-      content:
-        "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
-    },
-    {
-      id: 5,
-      title: "Brunch this weekend?",
-      content:
-        "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
-    },
-    {
-      id: 6,
-      title: "Brunch this weekend?",
-      content:
-        "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
-    },
-    {
-      id: 7,
-      title: "Brunch this weekend?",
-      content:
-        "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
-    },
-    {
-      id: 8,
-      title: "Brunch this weekend?",
-      content:
-        "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
-    },
-    {
-      id: 9,
-      title: "Brunch this weekend?",
-      content:
-        "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
-    },
-    {
-      id: 10,
-      title: "Brunch this weekend?",
-      content:
-        "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
-    },
-  ];
+  const { memoList } = useMemoList();
+  const isEmpty = !memoList || memoList.length === 0;
+
+  if (isEmpty) {
+    return (
+      <div
+        style={{
+          maxWidth: 520,
+          margin: "0 auto",
+          padding: "40px 20px",
+          textAlign: "center",
+        }}
+      >
+        <h2
+          style={{
+            margin: 0,
+            fontSize: 24,
+            lineHeight: 1.4,
+            fontWeight: 700,
+          }}
+        >
+          There's no memo yet
+        </h2>
+        <p
+          style={{
+            margin: "12px 0 0",
+            color: "#64748b",
+            fontSize: 16,
+            lineHeight: 1.6,
+          }}
+        >
+          Try to{" "}
+          <Link
+            to="/add"
+            style={{
+              color: "#1976d2",
+              fontWeight: 700,
+              textDecoration: "none",
+            }}
+          >
+            add one
+          </Link>
+          .
+        </p>
+      </div>
+    );
+  }
 
   return (
-    <List sx={{ width: "100%", bgcolor: "background.paper" }}>
-      {mockMemoList.map((memoList) => (
-        <MemoListItem key={memoList.id} memoList={memoList} />
+    <List
+      sx={{
+        width: "100%",
+        maxWidth: 640,
+        mx: "auto",
+        p: 0,
+        bgcolor: "background.paper",
+        border: "1px solid",
+        borderColor: "divider",
+        borderRadius: 2,
+        overflow: "hidden",
+      }}
+    >
+      {memoList.map((memo, index) => (
+        <MemoListItem
+          key={memo.id}
+          memoList={memo}
+          isLast={index === memoList.length - 1}
+        />
       ))}
     </List>
   );
