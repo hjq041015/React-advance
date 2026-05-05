@@ -4,10 +4,26 @@ import MemoListItem from "./MemoListItem.tsx";
 
 import { Link } from "@tanstack/react-router";
 import { useMemoList } from "../hooks/useMemoList.ts";
+import type { MemoItem } from "../types/MemoItem.ts";
+import { useEffect, useState } from "react";
 
-export default function MemoList() {
+export default function MemoList({ search = "" }) {
   const { memoList } = useMemoList();
   const isEmpty = !memoList || memoList.length === 0;
+  const [processedMemoList, setProcessedMemoList] = useState<MemoItem[]>([]);
+
+  useEffect(() => {
+    if (!search) {
+      setProcessedMemoList(memoList || []);
+    }
+
+    const filteredMemoList = memoList?.filter((memo) => {
+      return memo.title
+        .toLocaleLowerCase()
+        .includes(search.toLocaleLowerCase());
+    });
+    setProcessedMemoList(filteredMemoList || []);
+  }, [search]);
 
   if (isEmpty) {
     return (
@@ -68,7 +84,7 @@ export default function MemoList() {
         overflow: "hidden",
       }}
     >
-      {memoList.map((memo, index) => (
+      {processedMemoList.map((memo, index) => (
         <MemoListItem
           key={memo.id}
           memoList={memo}
