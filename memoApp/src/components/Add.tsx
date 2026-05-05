@@ -1,14 +1,14 @@
 import { Button, Stack, TextField } from "@mui/material";
-import type { FormEvent } from "react";
 import { useState } from "react";
 import { useMemoList } from "../hooks/useMemoList.ts";
+import { toast } from "sonner";
 
 function Add() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const { memoList, setMemoList } = useMemoList();
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
 
     if (!title.trim() && !content.trim()) {
@@ -20,6 +20,7 @@ function Add() {
       { id: Date.now(), title: title.trim(), content: content.trim() },
     ];
     setMemoList(newMemoList);
+    toast.success("Memo added successfully!");
     setTitle("");
     setContent("");
   }
