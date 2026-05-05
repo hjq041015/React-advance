@@ -34,6 +34,36 @@ export default function MemoList() {
       content:
         "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
     },
+    {
+      id: 6,
+      title: "Brunch this weekend?",
+      content:
+        "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
+    },
+    {
+      id: 7,
+      title: "Brunch this weekend?",
+      content:
+        "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
+    },
+    {
+      id: 8,
+      title: "Brunch this weekend?",
+      content:
+        "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
+    },
+    {
+      id: 9,
+      title: "Brunch this weekend?",
+      content:
+        "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
+    },
+    {
+      id: 10,
+      title: "Brunch this weekend?",
+      content:
+        "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
+    },
   ];
 
   return (
