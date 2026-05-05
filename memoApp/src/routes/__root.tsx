@@ -17,7 +17,7 @@ const RootLayout = () => (
     </main>
 
     <BottomNavi />
-    <Toaster richColors />
+    <Toaster richColors position="top-right" />
   </>
 );
 

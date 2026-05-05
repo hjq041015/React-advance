@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as AddRouteImport } from './routes/add'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PostsMemoIdRouteImport } from './routes/posts.$memoId'
 
 const SearchRoute = SearchRouteImport.update({
   id: '/search',
@@ -28,35 +29,44 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PostsMemoIdRoute = PostsMemoIdRouteImport.update({
+  id: '/posts/$memoId',
+  path: '/posts/$memoId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/add': typeof AddRoute
   '/search': typeof SearchRoute
+  '/posts/$memoId': typeof PostsMemoIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/add': typeof AddRoute
   '/search': typeof SearchRoute
+  '/posts/$memoId': typeof PostsMemoIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/add': typeof AddRoute
   '/search': typeof SearchRoute
+  '/posts/$memoId': typeof PostsMemoIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/add' | '/search'
+  fullPaths: '/' | '/add' | '/search' | '/posts/$memoId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/add' | '/search'
-  id: '__root__' | '/' | '/add' | '/search'
+  to: '/' | '/add' | '/search' | '/posts/$memoId'
+  id: '__root__' | '/' | '/add' | '/search' | '/posts/$memoId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AddRoute: typeof AddRoute
   SearchRoute: typeof SearchRoute
+  PostsMemoIdRoute: typeof PostsMemoIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +92,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/posts/$memoId': {
+      id: '/posts/$memoId'
+      path: '/posts/$memoId'
+      fullPath: '/posts/$memoId'
+      preLoaderRoute: typeof PostsMemoIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AddRoute: AddRoute,
   SearchRoute: SearchRoute,
+  PostsMemoIdRoute: PostsMemoIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
