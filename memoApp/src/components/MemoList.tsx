@@ -6,11 +6,18 @@ import { Link } from "@tanstack/react-router";
 import { useMemoList } from "../hooks/useMemoList.ts";
 import type { MemoItem } from "../types/MemoItem.ts";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export default function MemoList({ search = "" }) {
-  const { memoList } = useMemoList();
+  const { memoList, setMemoList } = useMemoList();
   const isEmpty = !memoList || memoList.length === 0;
   const [processedMemoList, setProcessedMemoList] = useState<MemoItem[]>([]);
+
+  function handleDelete(deleteId: number) {
+    const newMemoList = memoList?.filter((memo) => memo.id !== deleteId);
+    setMemoList(newMemoList);
+    toast.success("Memo deleted successfully!");
+  }
 
   useEffect(() => {
     if (!search) {
@@ -23,7 +30,7 @@ export default function MemoList({ search = "" }) {
         .includes(search.toLocaleLowerCase());
     });
     setProcessedMemoList(filteredMemoList || []);
-  }, [search]);
+  }, [search, memoList]);
 
   if (isEmpty) {
     return (
@@ -86,6 +93,7 @@ export default function MemoList({ search = "" }) {
     >
       {processedMemoList.map((memo, index) => (
         <MemoListItem
+          onDelete={handleDelete}
           key={memo.id}
           memoList={memo}
           isLast={index === memoList.length - 1}
