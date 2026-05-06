@@ -1,9 +1,23 @@
 import { TextField } from "@mui/material";
-import { useState } from "react";
+import React, { useState } from "react";
 import MemoList from "./MemoList.tsx";
+import { useNavigate } from "@tanstack/react-router";
+import { Route } from "../routes/search.tsx";
 
 function Search() {
-  const [search, setSearch] = useState("");
+  const navigate = useNavigate();
+  const { keyword } = Route.useSearch();
+  const [search, setSearch] = useState(keyword);
+
+  function handleClick(event: React.ChangeEvent<HTMLInputElement>) {
+    const newSearch = event.target.value;
+    setSearch(newSearch);
+    navigate({
+      to: ".",
+      search: () => ({ keyword: newSearch }),
+    });
+  }
+
   return (
     <main style={{ textAlign: "center" }}>
       <TextField
@@ -12,7 +26,7 @@ function Search() {
         label="Search"
         variant="outlined"
         value={search}
-        onChange={(event) => setSearch(event.target.value)}
+        onChange={handleClick}
       />
 
       <br />
