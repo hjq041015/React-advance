@@ -1,10 +1,10 @@
-import { Button } from "primereact/button";
+import NavBar from "./components/NavBar.tsx";
 
 function App() {
   return (
-    <div>
-      <Button label="Check" icon="pi pi-check" />
-    </div>
+    <>
+      <NavBar />
+    </>
   );
 }
 
