@@ -5,9 +5,9 @@ import HomeIcon from "@mui/icons-material/Home";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import { useLocation, useNavigate } from "@tanstack/react-router";
-import { Route as HomeRoute } from "../routes/index.tsx";
-import { Route as AddRoute } from "../routes/add.tsx";
-import { Route as SearchRoute } from "../routes/search.tsx";
+import { Route as HomeRoute } from "@/routes/index.tsx";
+import { Route as AddRoute } from "@/routes/add.tsx";
+import { Route as SearchRoute } from "@/routes/search.tsx";
 
 export default function BottomNavi() {
   const navigation = useNavigate();

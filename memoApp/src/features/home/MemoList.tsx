@@ -3,8 +3,8 @@ import List from "@mui/material/List";
 import MemoListItem from "./MemoListItem.tsx";
 
 import { Link } from "@tanstack/react-router";
-import { useMemoList } from "../hooks/useMemoList.ts";
-import type { MemoItem } from "../types/MemoItem.ts";
+import { useMemoList } from "@/hooks/useMemoList.ts";
+import type { MemoItem } from "@/types/MemoItem.ts";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 

@@ -1,5 +1,5 @@
 import { Divider, IconButton, ListItem, ListItemText } from "@mui/material";
-import type { MemoItem } from "../types/MemoItem.ts";
+import type { MemoItem } from "@/types/MemoItem.ts";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "@tanstack/react-router";
 

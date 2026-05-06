@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import MemoList from "../components/MemoList.tsx";
+import MemoList from "@/features/home/MemoList.tsx";
 
 export const Route = createFileRoute("/")({
   component: MemoList,

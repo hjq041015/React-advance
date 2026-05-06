@@ -1,8 +1,8 @@
 import { TextField } from "@mui/material";
 import React, { useState } from "react";
-import MemoList from "./MemoList.tsx";
+import MemoList from "@/features/home/MemoList.tsx";
 import { useNavigate } from "@tanstack/react-router";
-import { Route } from "../routes/search.tsx";
+import { Route } from "@/routes/search.tsx";
 
 function Search() {
   const navigate = useNavigate();
