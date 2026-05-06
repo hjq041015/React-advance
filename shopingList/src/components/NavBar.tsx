@@ -2,8 +2,25 @@ import { Menubar } from "primereact/menubar";
 import { InputText } from "primereact/inputtext";
 
 import { Badge } from "primereact/badge";
+import { Button } from "primereact/button";
+import { useContext, useState } from "react";
+import { PrimeReactContext } from "primereact/api";
 
 export default function NavBar() {
+  const [isDark, setIsDark] = useState(false);
+  const { changeTheme } = useContext(PrimeReactContext);
+
+  const LIGHT_THEME = "lara-light-cyan";
+  const DARK_THEME = "lara-dark-cyan";
+
+  function toggleTheme() {
+    const currentTheme = isDark ? DARK_THEME : LIGHT_THEME;
+    const nextTheme = isDark ? LIGHT_THEME : DARK_THEME;
+    changeTheme?.(currentTheme, nextTheme, "theme-link", () =>
+      setIsDark(!isDark),
+    );
+  }
+
   const itemRenderer = (item: any) => (
     <a className="flex align-items-center p-menuitem-link">
       <span className={item.icon} />
@@ -39,6 +56,13 @@ export default function NavBar() {
         placeholder="Search"
         type="text"
         className="w-8rem sm:w-auto"
+      />
+      <Button
+        onClick={toggleTheme}
+        icon={`pi pi-${isDark ? "moon" : "sun"}`}
+        text
+        aria-label="Filter"
+        severity="secondary"
       />
     </div>
   );
