@@ -1,41 +1,46 @@
-import { useState, useEffect } from "react";
-import { Button } from "primereact/button";
-import { DataView } from "primereact/dataview";
-import { Rating } from "primereact/rating";
-import { Tag } from "primereact/tag";
-import { classNames } from "primereact/utils";
-import { ProductService } from "../services/ProductService";
+import { useSetAtom } from 'jotai';
+import { Button } from 'primereact/button';
+import { DataView } from 'primereact/dataview';
+import { Rating } from 'primereact/rating';
+import { Tag } from 'primereact/tag';
+import { classNames } from 'primereact/utils';
+import { useState, useEffect } from 'react';
+import { toast } from 'sonner';
 
-interface Product {
-  id: string;
-  code: string;
-  name: string;
-  description: string;
-  image: string;
-  price: number;
-  category: string;
-  quantity: number;
-  inventoryStatus: string;
-  rating: number;
-}
+import type { Product } from '../types/Product.ts';
+import type { ProductItem } from '../types/ProductItem.ts';
+
+import { cartAtom } from '../atoms/cart.ts';
+import { useCartList } from '../hooks/useCartList.ts';
+import { ProductService } from '../services/ProductService';
 
 export default function ShopList() {
   const [products, setProducts] = useState<Product[]>([]);
+  const { cartList, setCartList } = useCartList();
+  const setCart = useSetAtom(cartAtom);
 
   useEffect(() => {
     ProductService.getProducts().then((data: Product[]) => setProducts(data));
+    setCart(cartList?.length || 0);
   }, []);
+
+  function addToCart(newCartItem: ProductItem) {
+    const newCartList = [...(cartList || []), newCartItem];
+    setCartList(newCartList);
+    setCart(newCartList.length);
+    toast.success('Added to cart');
+  }
 
   const getSeverity = (product: Product) => {
     switch (product.inventoryStatus) {
-      case "INSTOCK":
-        return "success";
+      case 'INSTOCK':
+        return 'success';
 
-      case "LOWSTOCK":
-        return "warning";
+      case 'LOWSTOCK':
+        return 'warning';
 
-      case "OUTOFSTOCK":
-        return "danger";
+      case 'OUTOFSTOCK':
+        return 'danger';
 
       default:
         return null;
@@ -46,10 +51,9 @@ export default function ShopList() {
     return (
       <div className="col-12" key={product.id}>
         <div
-          className={classNames(
-            "flex flex-column xl:flex-row xl:align-items-start p-4 gap-4",
-            { "border-top-1 surface-border": index !== 0 },
-          )}
+          className={classNames('flex flex-column xl:flex-row xl:align-items-start p-4 gap-4', {
+            'border-top-1 surface-border': index !== 0,
+          })}
         >
           <img
             className="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round"
@@ -65,18 +69,24 @@ export default function ShopList() {
                   <i className="pi pi-tag"></i>
                   <span className="font-semibold">{product.category}</span>
                 </span>
-                <Tag
-                  value={product.inventoryStatus}
-                  severity={getSeverity(product)}
-                ></Tag>
+                <Tag value={product.inventoryStatus} severity={getSeverity(product)}></Tag>
               </div>
             </div>
             <div className="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
               <span className="text-2xl font-semibold">${product.price}</span>
               <Button
+                onClick={() =>
+                  addToCart({
+                    id: product.id,
+                    name: product.name,
+                    image: product.image,
+                    price: product.price,
+                    category: product.category,
+                  })
+                }
                 icon="pi pi-shopping-cart"
                 className="p-button-rounded"
-                disabled={product.inventoryStatus === "OUTOFSTOCK"}
+                disabled={product.inventoryStatus === 'OUTOFSTOCK'}
               ></Button>
             </div>
           </div>
@@ -97,12 +107,7 @@ export default function ShopList() {
 
   return (
     <div className="card">
-      <DataView
-        value={products}
-        listTemplate={listTemplate}
-        paginator
-        rows={5}
-      />
+      <DataView value={products} listTemplate={listTemplate} paginator rows={5} />
     </div>
   );
 }
